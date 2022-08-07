@@ -1,4 +1,4 @@
-import { Context, createWrapper } from "next-redux-wrapper";
+import { createWrapper } from "next-redux-wrapper";
 import { applyMiddleware, createStore, Store } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware, { Task } from "redux-saga";
@@ -18,7 +18,7 @@ const bindMiddleware = (middleware: any) => {
 
 export let store: any = undefined;
 
-const makeStore = (context: Context) => {
+const makeStore = () => {
   // 1: Create the middleware
   const sagaMiddleware = createSagaMiddleware();
   // 2: Add an extra parameter for applying middleware:
