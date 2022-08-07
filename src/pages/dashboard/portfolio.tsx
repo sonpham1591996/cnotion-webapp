@@ -1,5 +1,5 @@
 import { PortfolioForm } from "@/components/PortfolioForm";
-import { UserPortfolio } from "@/components/UserPortfolio/UserPortfolio";
+import { UserPortfolio } from "@/components/UserPortfolio";
 import { getPortfolioContext } from "@/redux/reducers/appReducer";
 import { PORTFOLIO_CONTEXT_ENUM } from "@/redux/state";
 import { Main } from "@/templates/Main";

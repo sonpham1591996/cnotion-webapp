@@ -6,18 +6,21 @@ export enum PORTFOLIO_CONTEXT_ENUM {
 }
 
 export interface AppState {
+  public_key: string;
   portfolio_context: PORTFOLIO_CONTEXT_ENUM;
-  portfolio_data: {
-    total_balance: number;
-    assets: any;
-    chart_data: Array<{
-      timestamp: string;
-      open: number;
-      high: number;
-      low: number;
-      close: number;
-    }>;
-  } | undefined;
+  portfolio_data:
+    | {
+        total_balance: number;
+        assets: any;
+        chart_data: Array<{
+          timestamp: string;
+          open: number;
+          high: number;
+          low: number;
+          close: number;
+        }>;
+      }
+    | undefined;
 }
 
 export interface RootState {

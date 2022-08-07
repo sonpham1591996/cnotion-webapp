@@ -1,5 +1,6 @@
 import { setPortfolioData } from "@/redux/actions/appAction";
 import { PORTFOLIO_CONTEXT_ENUM } from "@/redux/state";
+import { loadPortfolio } from "@/services/PortfolioService";
 import {
   getLocalStorage,
   logger,
@@ -7,7 +8,6 @@ import {
   setLocalStorage,
   validateAddress,
 } from "@/shared/utils";
-import axios from "axios";
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -28,24 +28,6 @@ export const PortfolioForm: FC = () => {
   const [disableBtnSubmit, setDisabledBtnSubmit] = useState(false);
   const [historyPortfolio, setHistoryPortfolio] = useState(undefined);
   const [loading, setLoading] = useState(false);
-  let interval: any;
-
-  const listenData = (address: string) => {
-    axios
-      .get(
-        `${process.env.NEXT_PUBLIC_BO_URL}/v1/portfolio/network/56/address/${address}/balances/listener`
-      )
-      .then((res) => {
-        if (!res || !res.data || !res.data.assets) return;
-        if (res && res.data && res.data.assets) {
-          if (interval) clearInterval(interval);
-        }
-        handleData(res.data, address);
-      })
-      .catch((error) => {
-        logger(error);
-      });
-  };
 
   const handleData = (data: any, public_key: string) => {
     setLocalStorage(
@@ -68,6 +50,7 @@ export const PortfolioForm: FC = () => {
       setPortfolioData({
         portfolio_context: PORTFOLIO_CONTEXT_ENUM.USER_PORTFOLIO,
         portfolio_data: data,
+        public_key,
       })
     );
   };
@@ -79,31 +62,15 @@ export const PortfolioForm: FC = () => {
     }
     setDisabledBtnSubmit(true);
     setLoading(true);
-    axios
-      .get(
-        `${process.env.NEXT_PUBLIC_BO_URL}/v1/portfolio/network/56/address/${data.address}/balances`
-      )
-      .then((res) => {
-        if (!res || !res.data || !res.data.assets) {
-          if (interval) clearInterval(interval);
-          interval = setInterval(
-            function () {
-              listenData(data.address);
-            }.bind(this),
-            5000
-          );
-          return;
-        } else {
-          if (interval) clearInterval(interval);
-          setLoading(false);
-          handleData(res.data, data.address);
-        }
-      })
-      .catch((error) => {
-        logger(error?.message);
-        setDisabledBtnSubmit(true);
+    loadPortfolio(data.address)
+      .then((d: any) => {
         setLoading(false);
-        if (interval) clearInterval(interval);
+        handleData(d, data.address);
+      })
+      .catch((error: any) => {
+        logger(error?.message);
+        setDisabledBtnSubmit(false);
+        setLoading(false);
       });
   };
 

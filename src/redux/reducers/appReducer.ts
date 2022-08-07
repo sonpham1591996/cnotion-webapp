@@ -14,7 +14,12 @@ export const getPortfolioData = (state: RootState) => {
   return state.app.portfolio_data;
 };
 
+export const getPublicKey = (state: RootState) => {
+  return state.app.public_key;
+};
+
 const initializeState: AppState = {
+  public_key: "",
   portfolio_context: PORTFOLIO_CONTEXT_ENUM.FORM,
   portfolio_data: undefined,
 };
