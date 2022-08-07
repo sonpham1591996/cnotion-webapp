@@ -1,12 +1,12 @@
 FROM node:14
 
-WORKDIR /marketplace
+WORKDIR /webapp2
 
-COPY . /marketplace
+COPY . /webapp2
 
 COPY package.json /tmp/package.json
 RUN cd /tmp && npm install
-RUN cp -a /tmp/node_modules /marketplace
+RUN cp -a /tmp/node_modules /webapp2
 
 RUN npm run build
 
