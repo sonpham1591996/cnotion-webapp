@@ -33,8 +33,3 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/tc-portfolio-webapp2:dev
-      - name: Invoke deployment hook
-        uses: distributhor/workflow-webhook@v2
-        env:
-          webhook_url: ${{ secrets.WEBHOOK_URL }}
-          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
