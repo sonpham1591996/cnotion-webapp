@@ -33,7 +33,7 @@ export const UserPortfolio = () => {
   const getCardLineChartWeight = () =>
     portfolioData
       ? portfolioData.chart_data.map(
-          (d: any) => (d.open + d.high + d.low + d.close) / 4
+          (d: any) => d.value
         )
       : [];
 
