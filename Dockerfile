@@ -10,6 +10,6 @@ RUN cp -a /tmp/node_modules /webapp2
 
 RUN npm run build
 
-EXPOSE 3003
+EXPOSE 4173
 # Running the app
 ENTRYPOINT ["npm", "run", "start"]
