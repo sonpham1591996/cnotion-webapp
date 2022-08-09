@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CardLineChart } from "../CardLineChart";
 import { CardStats } from "../CardStats/CardStats";
 import { CardTable } from "../CardTable";
+import { Loader } from "../Loader";
 
 export const UserPortfolio = () => {
   const portfolioData = useSelector(getPortfolioData);
@@ -31,11 +32,7 @@ export const UserPortfolio = () => {
       : [];
 
   const getCardLineChartWeight = () =>
-    portfolioData
-      ? portfolioData.chart_data.map(
-          (d: any) => d.value
-        )
-      : [];
+    portfolioData ? portfolioData.chart_data.map((d: any) => d.value) : [];
 
   const onBack = () => {
     dispatch(resetPortfolioData());
@@ -81,6 +78,15 @@ export const UserPortfolio = () => {
       if (interval) clearInterval(interval);
     };
   }, [public_key]);
+
+  if (
+    !portfolioData ||
+    !portfolioData.total_balance ||
+    !portfolioData.chart_data ||
+    !portfolioData.assets
+  ) {
+    return <Loader />;
+  }
 
   return (
     <div className="md:w-9/12 mx-auto md:my-16">
