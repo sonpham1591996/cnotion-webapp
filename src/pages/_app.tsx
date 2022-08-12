@@ -6,6 +6,7 @@ import { wrapper } from "@/redux/store";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { withPasswordProtect } from "@storyofams/next-password-protect";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -25,4 +26,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return loading ? <Loader /> : <Component {...pageProps} />;
 };
 
-export default wrapper.withRedux(MyApp);
+export default process.env.PASSWORD_PROTECT === "true"
+  ? withPasswordProtect(wrapper.withRedux(MyApp), {
+      loginApiUrl: "/api/login",
+    })
+  : wrapper.withRedux(MyApp);
