@@ -2,15 +2,10 @@ const path = require("path");
 
 module.exports = {
   env: {
-    PASSWORD_PROTECT: process.env.ENVIRONMENT === "production",
+    PASSWORD_PROTECT: process.env.NODE_ENV === "production",
   },
   eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
     ignoreDuringBuilds: true,
-  },
-  experimental: {
-    externalDir: true,
   },
   webpack(config, options) {
     config.module.rules.push({

@@ -3,10 +3,10 @@ import "../styles/tailwind.css";
 
 import { Loader } from "@/components/Loader";
 import { wrapper } from "@/redux/store";
+import { withPasswordProtect } from "@storyofams/next-password-protect";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { withPasswordProtect } from "@storyofams/next-password-protect";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -27,7 +27,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 };
 
 export default process.env.PASSWORD_PROTECT
-  ? withPasswordProtect(wrapper.withRedux(MyApp), {
-      loginApiUrl: "/api/login",
-    })
+  ? wrapper.withRedux(
+      withPasswordProtect(MyApp, {
+        loginApiUrl: "/api/login",
+      })
+    )
   : wrapper.withRedux(MyApp);
