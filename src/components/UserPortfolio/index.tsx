@@ -1,7 +1,7 @@
 import toast from "@/components/Toast";
 import {
   resetPortfolioData,
-  setPortfolioData,
+  setPortfolioData
 } from "@/redux/actions/appAction";
 import { getPortfolioData, getPublicKey } from "@/redux/reducers/appReducer";
 import { PORTFOLIO_CONTEXT_ENUM } from "@/redux/state";
@@ -18,10 +18,8 @@ export const UserPortfolio = () => {
   const dispatch = useDispatch();
   const public_key = useSelector(getPublicKey);
 
-  if (!portfolioData) return null;
-
   const formatTotalBalance = () => {
-    return `${portfolioData.total_balance.toFixed(2)} USD`;
+    return portfolioData ? `${portfolioData.total_balance.toFixed(2)} USD` : '';
   };
 
   const getCardLineChartLabels = () =>
@@ -87,6 +85,7 @@ export const UserPortfolio = () => {
   ) {
     return <Loader />;
   }
+
 
   return (
     <div className="md:w-9/12 mx-auto md:my-16">

@@ -49,7 +49,7 @@ export const PortfolioForm: FC = () => {
     dispatch(
       setPortfolioData({
         portfolio_context: PORTFOLIO_CONTEXT_ENUM.USER_PORTFOLIO,
-        portfolio_data: data,
+        portfolio_data: data && data !== "" ? data : undefined,
         public_key,
       })
     );
