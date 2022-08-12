@@ -26,7 +26,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return loading ? <Loader /> : <Component {...pageProps} />;
 };
 
-export default process.env.PASSWORD_PROTECT === "true"
+export default process.env.PASSWORD_PROTECT
   ? withPasswordProtect(wrapper.withRedux(MyApp), {
       loginApiUrl: "/api/login",
     })
