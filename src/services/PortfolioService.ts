@@ -5,7 +5,7 @@ export const loadPortfolio = (address: string) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BO_URL}/v1/portfolio/network/56/address/${address}/portfolio`
+        `${process.env.NEXT_PUBLIC_BO_URL}/v1/portfolio/address/${address}/portfolio`
       )
       .then((res) => {
         return resolve(res.data);
