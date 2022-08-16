@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   env: {
-    PASSWORD_PROTECT: process.env.NODE_ENV === "production",
+    PASSWORD_PROTECT: process.env.NEXT_PUBLIC_ENVIRONMENT === "production",
   },
   eslint: {
     ignoreDuringBuilds: true,
