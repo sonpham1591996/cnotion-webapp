@@ -90,17 +90,17 @@ export const UserPortfolio = () => {
   }
 
   return (
-    <div className='md:w-9/12 mx-auto md:my-16'>
-      <div className='md:w-3/12'>
+    <div className="md:w-9/12 mx-auto md:my-16">
+      <div className="md:w-3/12">
         <CardStats
-          statSubtitle='Total Balance'
+          statSubtitle="Total Balance"
           statTitle={formatTotalBalance()}
         />
       </div>
 
-      <div className='my-4'>
+      <div className="my-4">
         <CardLineChart
-          title='Binance smart chain'
+          title="Binance smart chain"
           labels={getCardLineChartLabels()}
           weight={getCardLineChartWeight()}
         />
@@ -108,9 +108,9 @@ export const UserPortfolio = () => {
 
       <CardTable items={portfolioData.assets} />
 
-      <div className='flex justify-end my-4'>
+      <div className="flex justify-end my-4">
         <button
-          className='bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'
+          className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
           onClick={onBack}
         >
           Back

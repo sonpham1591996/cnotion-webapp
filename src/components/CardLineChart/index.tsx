@@ -65,12 +65,12 @@ export const CardLineChart: FC<CardLineChartProps> = ({
   });
 
   return (
-    <div className='App'>
-      <span className='text-xl font-bold'>{title}</span>
+    <div className="App">
+      <span className="text-xl font-bold">{title}</span>
       {labels.length === 0 || weight.length === 0 ? (
         <Loader />
       ) : (
-        <canvas id='myChart' ref={canvasEl} height='100' />
+        <canvas id="myChart" ref={canvasEl} height="100" />
       )}
     </div>
   );
