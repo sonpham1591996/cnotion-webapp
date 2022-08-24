@@ -113,7 +113,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center">
+              {/* <li className="items-center">
                 <Link href="/dashboard/charts">
                   <a
                     href="#pablo"
@@ -135,7 +135,7 @@ export default function Sidebar() {
                     Charts
                   </a>
                 </Link>
-              </li>
+              </li> */}
 
               <li className="items-center">
                 <Link href="/dashboard/news">
@@ -161,7 +161,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center">
+              {/* <li className="items-center">
                 <Link href="/dashboard/media">
                   <a
                     href="#pablo"
@@ -183,7 +183,7 @@ export default function Sidebar() {
                     Media
                   </a>
                 </Link>
-              </li>
+              </li> */}
             </ul>
 
             {/* Divider */}

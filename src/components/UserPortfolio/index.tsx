@@ -1,17 +1,17 @@
-import toast from "@/components/Toast";
+import toast from '@/components/Toast';
 import {
   resetPortfolioData,
-  setPortfolioData
-} from "@/redux/actions/appAction";
-import { getPortfolioData, getPublicKey } from "@/redux/reducers/appReducer";
-import { PORTFOLIO_CONTEXT_ENUM } from "@/redux/state";
-import { loadPortfolio } from "@/services/PortfolioService";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { CardLineChart } from "../CardLineChart";
-import { CardStats } from "../CardStats/CardStats";
-import { CardTable } from "../CardTable";
-import { Loader } from "../Loader";
+  setPortfolioData,
+} from '@/redux/actions/appAction';
+import { getPortfolioData, getPublicKey } from '@/redux/reducers/appReducer';
+import { PORTFOLIO_CONTEXT_ENUM } from '@/redux/state';
+import { loadPortfolio } from '@/services/PortfolioService';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { CardLineChart } from '../CardLineChart';
+import { CardStats } from '../CardStats/CardStats';
+import { CardTable } from '../CardTable';
+import { Loader } from '../Loader';
 
 export const UserPortfolio = () => {
   const portfolioData = useSelector(getPortfolioData);
@@ -23,14 +23,16 @@ export const UserPortfolio = () => {
   };
 
   const getCardLineChartLabels = () =>
-    portfolioData
+    portfolioData && portfolioData.chart_data
       ? portfolioData.chart_data.map((d: any) =>
           new Date(d.timestamp).toISOString().slice(0, 10)
         )
       : [];
 
   const getCardLineChartWeight = () =>
-    portfolioData ? portfolioData.chart_data.map((d: any) => d.value) : [];
+    portfolioData && portfolioData.chart_data
+      ? portfolioData.chart_data.map((d: any) => d.value)
+      : [];
 
   const onBack = () => {
     dispatch(resetPortfolioData());
@@ -50,7 +52,7 @@ export const UserPortfolio = () => {
         portfolio_data: data,
       })
     );
-    notify("success", "Refresh data!");
+    notify('success', 'Refresh data!');
   };
 
   const listenData = (address: string) => {
@@ -61,7 +63,7 @@ export const UserPortfolio = () => {
         handleData(data, address);
       })
       .catch((_) => {
-        notify("error", "Internal server error");
+        notify('error', 'Internal server error');
       });
   };
 
@@ -74,6 +76,7 @@ export const UserPortfolio = () => {
     }
     return () => {
       if (interval) clearInterval(interval);
+      dispatch(resetPortfolioData());
     };
   }, [public_key]);
 
@@ -86,19 +89,18 @@ export const UserPortfolio = () => {
     return <Loader />;
   }
 
-
   return (
-    <div className="md:w-9/12 mx-auto md:my-16">
-      <div className="md:w-3/12">
+    <div className='md:w-9/12 mx-auto md:my-16'>
+      <div className='md:w-3/12'>
         <CardStats
-          statSubtitle="Total Balance"
+          statSubtitle='Total Balance'
           statTitle={formatTotalBalance()}
         />
       </div>
 
-      <div className="my-4">
+      <div className='my-4'>
         <CardLineChart
-          title="Binance smart chain"
+          title='Binance smart chain'
           labels={getCardLineChartLabels()}
           weight={getCardLineChartWeight()}
         />
@@ -106,9 +108,9 @@ export const UserPortfolio = () => {
 
       <CardTable items={portfolioData.assets} />
 
-      <div className="flex justify-end my-4">
+      <div className='flex justify-end my-4'>
         <button
-          className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+          className='bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'
           onClick={onBack}
         >
           Back

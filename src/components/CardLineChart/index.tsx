@@ -1,5 +1,6 @@
-import Chart from "chart.js/auto";
-import { FC, useEffect, useRef } from "react";
+import Chart from 'chart.js/auto';
+import { FC, useEffect, useRef } from 'react';
+import { Loader } from '../Loader';
 
 interface CardLineChartProps {
   title: string;
@@ -16,20 +17,20 @@ export const CardLineChart: FC<CardLineChartProps> = ({
 
   const colors = {
     purple: {
-      default: "rgba(149, 76, 233, 1)",
-      half: "rgba(149, 76, 233, 0.5)",
-      quarter: "rgba(149, 76, 233, 0.25)",
-      zero: "rgba(149, 76, 233, 0)",
+      default: 'rgba(149, 76, 233, 1)',
+      half: 'rgba(149, 76, 233, 0.5)',
+      quarter: 'rgba(149, 76, 233, 0.25)',
+      zero: 'rgba(149, 76, 233, 0)',
     },
     indigo: {
-      default: "rgba(80, 102, 120, 1)",
-      quarter: "rgba(80, 102, 120, 0.25)",
+      default: 'rgba(80, 102, 120, 1)',
+      quarter: 'rgba(80, 102, 120, 0.25)',
     },
   };
 
   useEffect(() => {
     // @ts-ignore
-    const ctx = canvasEl.current.getContext("2d");
+    const ctx = canvasEl.current.getContext('2d');
 
     const gradient = ctx.createLinearGradient(0, 16, 0, 600);
     gradient.addColorStop(0, colors.purple.half);
@@ -41,7 +42,7 @@ export const CardLineChart: FC<CardLineChartProps> = ({
       datasets: [
         {
           backgroundColor: gradient,
-          label: "Total",
+          label: 'Total',
           data: weight,
           fill: true,
           borderWidth: 2,
@@ -53,7 +54,7 @@ export const CardLineChart: FC<CardLineChartProps> = ({
       ],
     };
     const config: any = {
-      type: "line",
+      type: 'line',
       data: data,
     };
     const myLineChart = new Chart(ctx, config);
@@ -64,9 +65,13 @@ export const CardLineChart: FC<CardLineChartProps> = ({
   });
 
   return (
-    <div className="App">
-      <span className="text-xl font-bold">{title}</span>
-      <canvas id="myChart" ref={canvasEl} height="100" />
+    <div className='App'>
+      <span className='text-xl font-bold'>{title}</span>
+      {labels.length === 0 || weight.length === 0 ? (
+        <Loader />
+      ) : (
+        <canvas id='myChart' ref={canvasEl} height='100' />
+      )}
     </div>
   );
 };
