@@ -7,6 +7,9 @@ import { withPasswordProtect } from "@storyofams/next-password-protect";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
+
+import "regenerator-runtime/runtime";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -23,7 +26,23 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     router.events.on("routeChangeError", handleComplete);
   }, [router]);
 
-  return loading ? <Loader /> : <Component {...pageProps} />;
+  const supportedChainIds = [56];
+
+  const connectors = {
+    injected: {},
+  };
+
+  return loading ? (
+    <Loader />
+  ) : (
+    // @ts-ignore
+    <ThirdwebWeb3Provider
+      supportedChainIds={supportedChainIds}
+      connectors={connectors}
+    >
+      <Component {...pageProps} />
+    </ThirdwebWeb3Provider>
+  );
 };
 
 export default process.env.PASSWORD_PROTECT

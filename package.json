@@ -10,6 +10,7 @@
     "build:tailwind": "tailwind build styles/index.css -o styles/tailwind.css"
   },
   "dependencies": {
+    "@3rdweb/hooks": "^1.9.2",
     "@popperjs/core": "^2.11.5",
     "@storyofams/next-password-protect": "^1.7.0",
     "chart.js": "^3.9.1",

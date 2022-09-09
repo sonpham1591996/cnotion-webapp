@@ -1,25 +1,27 @@
-import toast from '@/components/Toast';
+import toast from "@/components/Toast";
 import {
   resetPortfolioData,
   setPortfolioData,
-} from '@/redux/actions/appAction';
-import { getPortfolioData, getPublicKey } from '@/redux/reducers/appReducer';
-import { PORTFOLIO_CONTEXT_ENUM } from '@/redux/state';
-import { loadPortfolio } from '@/services/PortfolioService';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { CardLineChart } from '../CardLineChart';
-import { CardStats } from '../CardStats/CardStats';
-import { CardTable } from '../CardTable';
-import { Loader } from '../Loader';
+} from "@/redux/actions/appAction";
+import { getPortfolioData, getPublicKey } from "@/redux/reducers/appReducer";
+import { PORTFOLIO_CONTEXT_ENUM } from "@/redux/state";
+import { loadPortfolio } from "@/services/PortfolioService";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CardLineChart } from "../CardLineChart";
+import { CardStats } from "../CardStats/CardStats";
+import { CardTable } from "../CardTable";
+import { Loader } from "../Loader";
+import { PieChart } from "../PieChart";
 
 export const UserPortfolio = () => {
   const portfolioData = useSelector(getPortfolioData);
   const dispatch = useDispatch();
   const public_key = useSelector(getPublicKey);
+  const [filteredTime, setFilteredTime] = useState("7d");
 
   const formatTotalBalance = () => {
-    return portfolioData ? `${portfolioData.total_balance.toFixed(2)} USD` : '';
+    return portfolioData ? `${portfolioData.total_balance.toFixed(2)} USD` : "";
   };
 
   const getCardLineChartLabels = () =>
@@ -34,9 +36,17 @@ export const UserPortfolio = () => {
       ? portfolioData.chart_data.map((d: any) => d.value)
       : [];
 
-  const onBack = () => {
-    dispatch(resetPortfolioData());
-  };
+  const getPieChartLabels = () =>
+    portfolioData && portfolioData.assets
+      ? portfolioData.assets
+          .map((d: any) => (d.pie_chart_percentage > 0 ? d.token_name : null))
+          .filter((l: string) => !!l)
+      : [];
+
+  const getPieChartWeight = () =>
+    portfolioData && portfolioData.assets
+      ? portfolioData.assets.map((d: any) => d.pie_chart_percentage)
+      : [];
 
   const notify = React.useCallback((type: string, message: string) => {
     toast({ type, message });
@@ -52,18 +62,17 @@ export const UserPortfolio = () => {
         portfolio_data: data,
       })
     );
-    notify('success', 'Refresh data!');
   };
 
   const listenData = (address: string) => {
-    loadPortfolio(address)
+    loadPortfolio(address, filteredTime)
       .then((data: any) => {
         if (!data || !data.assets) return;
         if (interval) clearInterval(interval);
         handleData(data, address);
       })
       .catch((_) => {
-        notify('error', 'Internal server error');
+        notify("error", "Internal server error");
       });
   };
 
@@ -72,6 +81,7 @@ export const UserPortfolio = () => {
     if (public_key) {
       interval = setInterval(() => {
         listenData(public_key);
+        notify("success", "Refresh data!");
       }, 30000);
     }
     return () => {
@@ -79,6 +89,17 @@ export const UserPortfolio = () => {
       dispatch(resetPortfolioData());
     };
   }, [public_key]);
+
+  useEffect(() => {
+    if (filteredTime) {
+      setPortfolioData({
+        public_key,
+        portfolio_context: PORTFOLIO_CONTEXT_ENUM.USER_PORTFOLIO,
+        portfolio_data: undefined,
+      });
+      listenData(public_key);
+    }
+  }, [filteredTime]);
 
   if (
     !portfolioData ||
@@ -90,7 +111,7 @@ export const UserPortfolio = () => {
   }
 
   return (
-    <div className="md:w-9/12 mx-auto md:my-16">
+    <div className="md:w-9/12 mx-auto md:my-4">
       <div className="md:w-3/12">
         <CardStats
           statSubtitle="Total Balance"
@@ -98,23 +119,27 @@ export const UserPortfolio = () => {
         />
       </div>
 
-      <div className="my-4">
-        <CardLineChart
-          title="Binance smart chain"
-          labels={getCardLineChartLabels()}
-          weight={getCardLineChartWeight()}
-        />
+      <div className="block md:flex my-2">
+        <div className="sm:w-full pt-2 pl-8 md:w-8/12">
+          <CardLineChart
+            title="All chains"
+            labels={getCardLineChartLabels()}
+            weight={getCardLineChartWeight()}
+            filteredTime={filteredTime}
+            onFilterTime={(selectedOp: string) => setFilteredTime(selectedOp)}
+          />
+        </div>
+        <div className="sm:w-full pt-12 pl-4 md:w-3/12">
+          <PieChart
+            title="Tokens"
+            labels={getPieChartLabels()}
+            weight={getPieChartWeight()}
+          />
+        </div>
       </div>
 
-      <CardTable items={portfolioData.assets} />
-
-      <div className="flex justify-end my-4">
-        <button
-          className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-          onClick={onBack}
-        >
-          Back
-        </button>
+      <div className="my-4">
+        <CardTable items={portfolioData.assets} />
       </div>
     </div>
   );
