@@ -1,5 +1,6 @@
+import { Navbar } from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import { NextSeo } from "next-seo";
+import { Meta } from "@/layouts/Meta";
 import { ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,12 +13,16 @@ type IMainProps = {
 export const Main = (props: IMainProps) => {
   return (
     <div className="w-full px-1 text-gray-700 antialiased dark:bg-zinc-700 dark:text-white">
-      <NextSeo title={props.meta}></NextSeo>
-      <div className="flex w-full h-screen">
-        <div className="w-2/12">
-          <Sidebar />
-        </div>
-        <div className="w-10/12">{props.children}</div>
+      <Meta title={props.meta} description="CNotion"></Meta>
+      {/* Desktop */}
+      <div className="hidden md:flex w-full h-screen">
+        <Sidebar />
+        <div className="lg:w-8/12 py-4 mx-auto ml-auto">{props.children}</div>
+      </div>
+      {/* Mobile */}
+      <div className="sm:block md:hidden">
+        <Navbar />
+        <div>{props.children}</div>
       </div>
       <ToastContainer
         position="top-right"

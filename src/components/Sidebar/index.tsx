@@ -12,7 +12,7 @@ export default function Sidebar() {
   const { address, disconnectWallet } = useWeb3();
 
   return (
-    <nav className="md:left-0 md:block md:fixed md:h-screen md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6 dark:bg-zinc-700 dark:text-white">
+    <nav className="md:left-0 md:block md:fixed md:h-screen md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative z-10 py-4 px-8 dark:bg-zinc-700 dark:text-white">
       <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
         {/* Toggler */}
         <button
@@ -106,29 +106,16 @@ export default function Sidebar() {
               </Link>
             </li>
 
-            {/* <li className="items-center">
-                <Link href="/dashboard/charts">
-                  <a
-                    href="#pablo"
-                    className={
-                      "text-xs uppercase py-3 font-bold block " +
-                      (router.pathname.indexOf("/dashboard/charts") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
-                    }
-                  >
-                    <i
-                      className={
-                        "fas fa-tools mr-2 text-sm " +
-                        (router.pathname.indexOf("/dashboard/charts") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Charts
-                  </a>
-                </Link>
-              </li> */}
+            <li className="items-center">
+              <Link href="/dashboard/transactions">
+                <a
+                  href="/dashboard/transactions"
+                  className={"text-xs uppercase py-3 font-bold block "}
+                >
+                  <i className={"fas fa-tools mr-2 text-sm "}></i> Transactions
+                </a>
+              </Link>
+            </li>
 
             <li className="items-center">
               <Link href="/dashboard/news">
@@ -165,7 +152,7 @@ export default function Sidebar() {
             </ul>
           )}
 
-          <ul className="md:flex-col mt-auto">
+          <ul className="md:flex-col mt-auto ml-2">
             <li className="items-center">
               <ThemeSwitch />
             </li>

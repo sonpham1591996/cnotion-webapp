@@ -24,46 +24,18 @@ export const PortfolioForm: FC = () => {
   const [historyPortfolio, setHistoryPortfolio] = useState(undefined);
   const [loading, setLoading] = useState(false);
 
-  const handleData = (data: any, public_key: string) => {
-    setLocalStorage(
-      PORTFOLIO_HISTORY_STORAGE_KEY,
-      (() => {
-        const oldValue = getLocalStorage(PORTFOLIO_HISTORY_STORAGE_KEY)
-          ? JSON.parse(getLocalStorage(PORTFOLIO_HISTORY_STORAGE_KEY)!)
-          : [];
-        const index = oldValue.indexOf(public_key);
-        if (index >= 0) {
-          oldValue.splice(index, 1);
-          oldValue.unshift(public_key);
-          return JSON.stringify(oldValue);
-        }
-        oldValue.unshift(public_key);
-        return JSON.stringify(oldValue);
-      })()
-    );
-    dispatch(
-      setPortfolioData({
-        portfolio_context: PORTFOLIO_CONTEXT_ENUM.USER_PORTFOLIO,
-        portfolio_data: data && data !== "" ? data : undefined,
-        public_key,
-      })
-    );
-  };
-
   const onSubmit = (data: PortfolioFormData) => {
     if (!data.address || !validateAddress(data.address)) {
       return;
     }
     setLoading(true);
-    loadPortfolio(data.address, '30d')
-      .then((d: any) => {
-        setLoading(false);
-        handleData(d, data.address);
+    dispatch(
+      setPortfolioData({
+        portfolio_context: PORTFOLIO_CONTEXT_ENUM.USER_PORTFOLIO,
+        portfolio_data: undefined,
+        public_key: data.address,
       })
-      .catch((error: any) => {
-        logger(error?.message);
-        setLoading(false);
-      });
+    );
   };
 
   useEffect(() => {

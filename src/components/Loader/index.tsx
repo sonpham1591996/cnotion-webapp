@@ -4,7 +4,6 @@ import DotLoader from "react-spinners/DotLoader";
 const override: CSSProperties = {
   display: "block",
   margin: "0 auto",
-  borderColor: "red",
 };
 
 export const Loader = () => {

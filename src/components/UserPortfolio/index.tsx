@@ -64,8 +64,8 @@ export const UserPortfolio = () => {
     );
   };
 
-  const listenData = (address: string) => {
-    loadPortfolio(address, filteredTime)
+  const listenData = (address: string, inputFilteredTime?: string) => {
+    loadPortfolio(address, inputFilteredTime ?? filteredTime)
       .then((data: any) => {
         if (!data || !data.assets) return;
         if (interval) clearInterval(interval);
@@ -97,7 +97,7 @@ export const UserPortfolio = () => {
         portfolio_context: PORTFOLIO_CONTEXT_ENUM.USER_PORTFOLIO,
         portfolio_data: undefined,
       });
-      listenData(public_key);
+      listenData(public_key, filteredTime);
     }
   }, [filteredTime]);
 
@@ -111,7 +111,7 @@ export const UserPortfolio = () => {
   }
 
   return (
-    <div className="md:w-10/12 mx-auto md:my-4">
+    <div className="mx-auto md:my-4">
       <div className="md:w-3/12">
         <CardStats
           statSubtitle="Total Balance"
@@ -120,7 +120,7 @@ export const UserPortfolio = () => {
       </div>
 
       <div className="block md:flex my-2">
-        <div className="sm:w-full pt-2 pl-8 md:w-8/12">
+        <div className="sm:w-full pt-2 sm:px-2 md:pl-8 md:w-8/12">
           <CardLineChart
             title="All chains"
             labels={getCardLineChartLabels()}

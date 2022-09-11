@@ -22,7 +22,7 @@ const Meta = (props: IMetaProps) => {
           content="width=device-width,initial-scale=1"
           key="viewport"
         />
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> 
+        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" /> 
         <link
           rel="apple-touch-icon"
           href={`${router.basePath}/apple-touch-icon.png`}
