@@ -11,7 +11,7 @@ const PortfolioPage: NextPage = () => {
 
   if (context === PORTFOLIO_CONTEXT_ENUM.FORM) {
     return (
-      <Main meta="Portfolio Form">
+      <Main meta="Portfolio Form | CNotion">
         <PortfolioForm />
       </Main>
     );
@@ -19,7 +19,7 @@ const PortfolioPage: NextPage = () => {
 
   if (context === PORTFOLIO_CONTEXT_ENUM.USER_PORTFOLIO) {
     return (
-      <Main meta="User Portfolio">
+      <Main meta="User Portfolio | CNotion">
         <UserPortfolio />
       </Main>
     );

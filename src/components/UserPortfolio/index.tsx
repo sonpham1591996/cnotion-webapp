@@ -111,7 +111,7 @@ export const UserPortfolio = () => {
   }
 
   return (
-    <div className="md:w-9/12 mx-auto md:my-4">
+    <div className="md:w-10/12 mx-auto md:my-4">
       <div className="md:w-3/12">
         <CardStats
           statSubtitle="Total Balance"
@@ -138,7 +138,7 @@ export const UserPortfolio = () => {
         </div>
       </div>
 
-      <div className="my-4">
+      <div className="py-8">
         <CardTable items={portfolioData.assets} />
       </div>
     </div>

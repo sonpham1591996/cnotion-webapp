@@ -1,4 +1,3 @@
-import { Meta } from "@/layouts/Meta";
 import { Main } from "@/templates/Main";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -10,18 +9,7 @@ const Index = () => {
     router.push("/dashboard/portfolio");
   }, []);
 
-  return (
-    <Main
-      meta={
-        <Meta
-          title="TC Portfolio"
-          description="Next js Boilerplate is the perfect starter code for your project. Build your React application with the Next.js framework."
-        />
-      }
-    >
-      Home
-    </Main>
-  );
+  return <Main meta="TC Portfolio">Home</Main>;
 };
 
 export default Index;

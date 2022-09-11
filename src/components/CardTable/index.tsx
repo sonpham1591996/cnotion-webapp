@@ -10,7 +10,7 @@ export const CardTable: FC<CardTableProps> = ({
   items,
 }: CardTableProps) => {
   return (
-    <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
+    <div className="relative flex flex-col min-w-0 break-words w-full shadow-lg rounded">
       <div className="rounded-t mb-0 px-4 py-3 border-0">
         <div className="flex flex-wrap items-center">
           <div className="relative w-full max-w-full flex-grow flex-1">

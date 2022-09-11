@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
 
 import "regenerator-runtime/runtime";
+import { ThemeProvider } from "next-themes";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -35,13 +36,15 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return loading ? (
     <Loader />
   ) : (
-    // @ts-ignore
-    <ThirdwebWeb3Provider
-      supportedChainIds={supportedChainIds}
-      connectors={connectors}
-    >
-      <Component {...pageProps} />
-    </ThirdwebWeb3Provider>
+    <ThemeProvider enableSystem={true} attribute="class">
+      {/* @ts-ignore */}
+      <ThirdwebWeb3Provider
+        supportedChainIds={supportedChainIds}
+        connectors={connectors}
+      >
+        <Component {...pageProps} />
+      </ThirdwebWeb3Provider>
+    </ThemeProvider>
   );
 };
 
