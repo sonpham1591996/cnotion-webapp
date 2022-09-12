@@ -24,11 +24,14 @@ export const loadTransactions = (
 ) => {
   return new Promise<TransactionDTO>((resolve, reject) => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_BO_URL}/v1/transactions/`, {
-        public_key,
-        page_number,
-        tx_hash,
-      })
+      .post(
+        `${process.env.NEXT_PUBLIC_TRANSACTIONS_SERVICE_URL}/v1/transactions/search`,
+        {
+          public_key,
+          page_number,
+          tx_hash,
+        }
+      )
       .then((res: AxiosResponse<TransactionDTO>) => {
         return resolve(res.data);
       })
