@@ -2,7 +2,7 @@ import { Loader } from "@/components/Loader";
 import { loadCryptoNews } from "@/services/NewsService";
 import { prettyDate } from "@/shared/utils";
 import { Main } from "@/templates/Main";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 function News() {
