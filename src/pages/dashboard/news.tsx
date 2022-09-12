@@ -2,7 +2,7 @@ import { Loader } from "@/components/Loader";
 import { loadCryptoNews } from "@/services/NewsService";
 import { prettyDate } from "@/shared/utils";
 import { Main } from "@/templates/Main";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 function News() {
@@ -18,16 +18,23 @@ function News() {
     | undefined
   >();
   const router = useRouter();
-
   const [pageNumber, setPageNumber] = useState<number>(1);
 
   useEffect(() => {
-    const page_number = +String(router.query.page_number) ?? 1;
-    if (!newsData || page_number > 0) {
-      setPageNumber(page_number);
-      loadCryptoNews(page_number).then((data: any) => setNewsData(data));
+    if (!newsData) {
+      loadCryptoNews(pageNumber).then((data: any) => setNewsData(data));
     }
-  }, [newsData, router.query]);
+  }, [newsData]);
+
+  useEffect(() => {
+    const page_number = +String(router.query.page_number) ?? 1;
+    if (page_number > 0) {
+      loadCryptoNews(page_number).then((data: any) => {
+        setNewsData(data);
+        setPageNumber(page_number);
+      });
+    }
+  }, [router.query]);
 
   if (!newsData) {
     return <Loader />;
@@ -37,7 +44,7 @@ function News() {
     <Main meta="Crypto News">
       <div className="container w-md mx-auto overflow-x-auto relative lg:my-16">
         <table className="table-auto w-full text-sm text-left text-gray-600">
-          <thead className="text-md text-white uppercase bg-gray-50 dark:bg-gray-600 dark:text-gray-400">
+          <thead className="text-md uppercase dark:bg-gray-600 dark:text-white">
             <tr>
               <th scope="col" className="py-3 px-6">
                 Published At
@@ -52,7 +59,7 @@ function News() {
               return (
                 <tr
                   key={index}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 >
                   <td className="py-4 px-6">{prettyDate(d.published_at)}</td>
                   <td className="py-4 px-6">{d.title}</td>

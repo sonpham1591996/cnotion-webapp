@@ -91,13 +91,13 @@ export const UserPortfolio = () => {
   }, [public_key]);
 
   useEffect(() => {
-    if (filteredTime) {
+    if (filteredTime && public_key) {
       setPortfolioData({
         public_key,
         portfolio_context: PORTFOLIO_CONTEXT_ENUM.USER_PORTFOLIO,
         portfolio_data: undefined,
       });
-      listenData(public_key, filteredTime);
+      listenData(public_key!, filteredTime);
     }
   }, [filteredTime]);
 
@@ -116,6 +116,7 @@ export const UserPortfolio = () => {
         <CardStats
           statSubtitle="Total Balance"
           statTitle={formatTotalBalance()}
+          profitAndLoss={portfolioData.profitAndLoss}
         />
       </div>
 

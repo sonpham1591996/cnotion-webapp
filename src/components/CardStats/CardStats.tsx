@@ -5,6 +5,11 @@ interface CardStatsProps {
   statTitle: string;
   statPercent?: string;
   statDescription?: string;
+  profitAndLoss?: {
+    price_change_24h: number;
+    percentage_change_24h: number;
+    overall_profit_loss: number;
+  };
 }
 
 export const CardStats: FC<CardStatsProps> = ({

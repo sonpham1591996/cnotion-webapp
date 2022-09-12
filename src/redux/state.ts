@@ -6,7 +6,7 @@ export enum PORTFOLIO_CONTEXT_ENUM {
 }
 
 export interface AppState {
-  public_key: string;
+  public_key: string | undefined;
   portfolio_context: PORTFOLIO_CONTEXT_ENUM;
   portfolio_data:
     | {
@@ -19,6 +19,11 @@ export interface AppState {
           low: number;
           close: number;
         }>;
+        profitAndLoss: {
+          price_change_24h: number;
+          percentage_change_24h: number;
+          overall_profit_loss: number;
+        };
       }
     | undefined;
 }

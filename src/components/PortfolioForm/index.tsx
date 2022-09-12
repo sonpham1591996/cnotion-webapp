@@ -1,14 +1,11 @@
 import { setPortfolioData } from "@/redux/actions/appAction";
 import { PORTFOLIO_CONTEXT_ENUM } from "@/redux/state";
-import { loadPortfolio } from "@/services/PortfolioService";
 import {
   getLocalStorage,
-  logger,
   PORTFOLIO_HISTORY_STORAGE_KEY,
-  setLocalStorage,
-  validateAddress,
+  validateAddress
 } from "@/shared/utils";
-import { useWeb3 } from "@3rdweb/hooks";
+import { useAddress, useMetamask } from "@thirdweb-dev/react";
 import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Loader } from "../Loader";
@@ -18,7 +15,8 @@ type PortfolioFormData = {
 };
 
 export const PortfolioForm: FC = () => {
-  const { address, connectWallet } = useWeb3();
+  const connectWithMetamask = useMetamask();
+  const address = useAddress();
 
   const dispatch = useDispatch();
   const [historyPortfolio, setHistoryPortfolio] = useState(undefined);
@@ -66,7 +64,7 @@ export const PortfolioForm: FC = () => {
         <div className="btn-connect-wallet my-4">
           <button
             className="px-4 py-2 rounded-md bg-blue-600 cursor-pointer hover:bg-purple-500 text-lg font-semibold duration-100 text-white"
-            onClick={() => connectWallet("injected")}
+            onClick={connectWithMetamask}
           >
             Connect Wallet
           </button>

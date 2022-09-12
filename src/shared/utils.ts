@@ -34,3 +34,7 @@ export function validateAddress(address: string): boolean {
 export function logger(message: string) {
   return process.env.NODE_ENV === "development" ? console.log(message) : "";
 }
+
+export function shorttenString(value: string) {
+  return `${value.slice(0, 12)}...${value.slice(12, 24)}`;
+}

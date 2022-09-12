@@ -3,27 +3,47 @@ import {
   loadTransactions,
   TransactionDTO,
 } from "@/services/TransactionService";
+import { shorttenString } from "@/shared/utils";
 import { Main } from "@/templates/Main";
-import { useWeb3 } from "@3rdweb/hooks";
+import { useAddress } from "@thirdweb-dev/react";
 import { NextPage } from "next";
+import Router from "next/router";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+
+interface SearchFormData {
+  transactionHash: string;
+}
 
 const Transactions: NextPage = () => {
-  const { address } = useWeb3();
+  const address = useAddress();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<TransactionDTO | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const {
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<SearchFormData>();
+
+  const onSubmit = (data: SearchFormData) => {
+    loadTransactions(address!, 1, data.transactionHash).then(
+      (transactionDto: TransactionDTO) => {
+        setData(transactionDto);
+        setPageNumber(transactionDto.page_number);
+      }
+    );
+  };
 
   useEffect(() => {
     if (loading && address && !data) {
-      loadTransactions(address!, 1)
+      loadTransactions(address, 1)
         .then((transactionDto: TransactionDTO) => {
           setData(transactionDto);
           setPageNumber(transactionDto.page_number);
           setLoading(false);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((_) => {
           setLoading(false);
         });
     }
@@ -31,11 +51,66 @@ const Transactions: NextPage = () => {
 
   if (loading) return <Loader />;
 
+  if (!address) {
+    Router.push("/dashboard/portfolio");
+    return <></>;
+  }
+
   return (
     <Main meta="Transaction History | CNotion">
       <div className="my-8">
         <div className="title text-3xl font-bold">Transaction History</div>
-        <div className="search-box"></div>
+        <div className="search-box mt-4">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <label
+              htmlFor="transactionHash"
+              className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300"
+            >
+              Transaction Hash
+            </label>
+            <div className="relative">
+              <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                <svg
+                  aria-hidden="true"
+                  className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+              </div>
+              <input
+                className="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search"
+                id="transactionHash"
+                type="search"
+                onChange={(event) =>
+                  setValue("transactionHash", event.target.value)
+                }
+              />
+              <button
+                type="submit"
+                className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Search
+              </button>
+            </div>
+            <div>
+              {errors.transactionHash && (
+                <span className="text-red-500 ml-2">
+                  {errors.transactionHash.message}
+                </span>
+              )}
+            </div>
+          </form>
+        </div>
         <div className="overflow-x-auto">
           <div className="w-full flex items-center justify-center overflow-hidden my-8">
             <div className="w-full">
@@ -43,9 +118,7 @@ const Transactions: NextPage = () => {
                 <table className="items-center w-full bg-transparent border-collapse">
                   <thead>
                     <tr className="uppercase text-lg leading-normal overflow-x-auto">
-                      <th className="py-3 px-6 text-center">
-                        Transaction Hash
-                      </th>
+                      <th className="py-3 px-6 text-left">Transaction Hash</th>
                       <th className="py-3 px-6 text-left">Wallet</th>
                       <th className="py-3 px-6 text-left">Action</th>
                       <th className="py-3 px-6 text-left">Send</th>
@@ -58,13 +131,24 @@ const Transactions: NextPage = () => {
                       return (
                         <tr className="border-b" key={index}>
                           <td className="border-t-0 px-2 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4">
-                            <span
-                              className="ml-3 font-800"
-                              title={transaction.tx_hash}
+                            <a
+                              className="text-blue-500"
+                              href={transaction.tx_hash}
+                              target="_blank"
                             >
-                              {transaction.tx_hash.slice(0, 12)}...
-                              {transaction.tx_hash.slice(12, 24)}
-                            </span>
+                              <span
+                                className="ml-3 font-800"
+                                title={transaction.tx_hash.substring(
+                                  transaction.tx_hash.lastIndexOf("/") + 1
+                                )}
+                              >
+                                {shorttenString(
+                                  transaction.tx_hash.substring(
+                                    transaction.tx_hash.lastIndexOf("/") + 1
+                                  )
+                                )}
+                              </span>
+                            </a>
                           </td>
                           <td className="border-t-0 px-2 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4">
                             <span

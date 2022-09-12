@@ -1,10 +1,15 @@
-import { useWeb3 } from "@3rdweb/hooks";
-import React, { useState } from "react";
+import { setPortfolioData } from "@/redux/actions/appAction";
+import { PORTFOLIO_CONTEXT_ENUM } from "@/redux/state";
+import { useAddress, useDisconnect } from "@thirdweb-dev/react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { ThemeSwitch } from "../ThemeSwitch";
 
 export const Navbar = () => {
-  const { address, disconnectWallet } = useWeb3();
   const [show, setShow] = useState(false);
+  const address = useAddress();
+  const disconnect = useDisconnect();
+  const dispatch = useDispatch();
 
   return (
     <nav className="block md:hidden border-gray-200 px-4 sm:px-4 py-2.5 rounded dark:bg-gray-900">
@@ -30,9 +35,9 @@ export const Navbar = () => {
             viewBox="0 0 20 20"
           >
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-              clip-rule="evenodd"
+              clipRule="evenodd"
             ></path>
           </svg>
         </button>
@@ -43,7 +48,7 @@ export const Navbar = () => {
           <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <a
-                href="/portfolio"
+                href="/dashboard/portfolio"
                 className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 Portfolio
@@ -51,7 +56,7 @@ export const Navbar = () => {
             </li>
             <li>
               <a
-                href="/news"
+                href="/dashboard/news"
                 className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 News
@@ -61,7 +66,16 @@ export const Navbar = () => {
               <li>
                 <div
                   className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                  onClick={() => disconnectWallet()}
+                  onClick={() => {
+                    disconnect();
+                    dispatch(
+                      setPortfolioData({
+                        public_key: undefined,
+                        portfolio_context: PORTFOLIO_CONTEXT_ENUM.FORM,
+                        portfolio_data: undefined,
+                      })
+                    );
+                  }}
                 >
                   Logout
                 </div>

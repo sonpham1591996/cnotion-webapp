@@ -7,10 +7,10 @@ import { withPasswordProtect } from "@storyofams/next-password-protect";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
 
-import "regenerator-runtime/runtime";
+import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { ThemeProvider } from "next-themes";
+import "regenerator-runtime/runtime";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -27,23 +27,25 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     router.events.on("routeChangeError", handleComplete);
   }, [router]);
 
-  const supportedChainIds = [56];
-
-  const connectors = {
-    injected: {},
-  };
-
   return loading ? (
     <Loader />
   ) : (
     <ThemeProvider enableSystem={true} attribute="class">
       {/* @ts-ignore */}
-      <ThirdwebWeb3Provider
-        supportedChainIds={supportedChainIds}
-        connectors={connectors}
+      <ThirdwebProvider
+        desiredChainId={ChainId.Mainnet}
+        walletConnectors={[
+          "walletConnect",
+          {
+            name: "injected",
+            options: {
+              shimDisconnect: false,
+            },
+          },
+        ]}
       >
         <Component {...pageProps} />
-      </ThirdwebWeb3Provider>
+      </ThirdwebProvider>
     </ThemeProvider>
   );
 };

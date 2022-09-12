@@ -1,7 +1,10 @@
-import { useWeb3 } from "@3rdweb/hooks";
+import { setPortfolioData } from "@/redux/actions/appAction";
+import { PORTFOLIO_CONTEXT_ENUM } from "@/redux/state";
+import { useAddress, useDisconnect } from "@thirdweb-dev/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { useDispatch } from "react-redux";
 import NotificationDropdown from "../NotificationDropdown";
 import { ThemeSwitch } from "../ThemeSwitch";
 import UserDropdown from "../UserDropdown";
@@ -9,10 +12,12 @@ import UserDropdown from "../UserDropdown";
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
   const router = useRouter();
-  const { address, disconnectWallet } = useWeb3();
+  const disconnect = useDisconnect();
+  const address = useAddress();
+  const dispatch = useDispatch();
 
   return (
-    <nav className="md:left-0 md:block md:fixed md:h-screen md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative z-10 py-4 px-8 dark:bg-zinc-700 dark:text-white">
+    <nav className="md:left-0 md:block md:fixed md:h-screen md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative z-10 py-4 px-4 dark:bg-zinc-700 dark:text-white">
       <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
         {/* Toggler */}
         <button
@@ -106,16 +111,19 @@ export default function Sidebar() {
               </Link>
             </li>
 
-            <li className="items-center">
-              <Link href="/dashboard/transactions">
-                <a
-                  href="/dashboard/transactions"
-                  className={"text-xs uppercase py-3 font-bold block "}
-                >
-                  <i className={"fas fa-tools mr-2 text-sm "}></i> Transactions
-                </a>
-              </Link>
-            </li>
+            {address && (
+              <li className="items-center">
+                <Link href="/dashboard/transactions">
+                  <a
+                    href="/dashboard/transactions"
+                    className={"text-xs uppercase py-3 font-bold block "}
+                  >
+                    <i className={"fas fa-tools mr-2 text-sm "}></i>{" "}
+                    Transactions
+                  </a>
+                </Link>
+              </li>
+            )}
 
             <li className="items-center">
               <Link href="/dashboard/news">
@@ -137,25 +145,29 @@ export default function Sidebar() {
             </li>
           </ul>
 
-          {address && (
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-              <li className="items-center">
-                <div
-                  className="text-xs uppercase py-3 font-bold block
-                      cursor-pointer"
-                  onClick={disconnectWallet}
-                >
-                  <i className="fas fa-fingerprint dark:text-white mr-2 text-sm"></i>{" "}
-                  Logout
-                </div>
-              </li>
-            </ul>
-          )}
-
           <ul className="md:flex-col mt-auto ml-2">
             <li className="items-center">
               <ThemeSwitch />
             </li>
+            {address && (
+              <li className="items-center">
+                <div
+                  className="text-md uppercase font-bold block cursor-pointer"
+                  onClick={() => {
+                    disconnect();
+                    dispatch(
+                      setPortfolioData({
+                        public_key: undefined,
+                        portfolio_context: PORTFOLIO_CONTEXT_ENUM.FORM,
+                        portfolio_data: undefined,
+                      })
+                    );
+                  }}
+                >
+                  Logout
+                </div>
+              </li>
+            )}
           </ul>
         </div>
       </div>
