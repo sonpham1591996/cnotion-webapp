@@ -8,7 +8,6 @@ export const setPortfolioData = (payload: AppState) => ({
   payload,
 });
 
-
 export const resetPortfolioData = () => ({
   type: RESET_PORTFOLIO_DATA,
 });

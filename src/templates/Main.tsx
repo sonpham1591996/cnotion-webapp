@@ -15,7 +15,7 @@ export const Main = (props: IMainProps) => {
     <div className="w-full px-1 text-gray-700 antialiased dark:bg-zinc-700 dark:text-white">
       <Meta title={props.meta} description="CNotion"></Meta>
       {/* Desktop */}
-      <div className="hidden md:flex w-full h-screen">
+      <div className="hidden md:flex w-full">
         <Sidebar />
         <div className="lg:w-8/12 py-4 mx-auto ml-auto">{props.children}</div>
       </div>

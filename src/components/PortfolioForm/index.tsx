@@ -54,7 +54,7 @@ export const PortfolioForm: FC = () => {
 
   if (!address) {
     return (
-      <div className="block justify-center mt-16 md:mt-40 md:w-8/12 px-16 py-16">
+      <div className="block justify-center mt-16 md:mt-40 md:w-8/12 px-16 py-16 h-screen">
         <div className="text-2xl font-bold">Welcome to CNotion!</div>
         <div className="text-lg-font-semibold">
           Manage your Defi positions with the most comprehensive analytics

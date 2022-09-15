@@ -1,8 +1,8 @@
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { NextSeo } from 'next-seo';
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { NextSeo } from "next-seo";
 
-import { AppConfig } from '@/utils/AppConfig';
+import { AppConfig } from "@/utils/AppConfig";
 
 type IMetaProps = {
   title: string;
@@ -22,7 +22,6 @@ const Meta = (props: IMetaProps) => {
           content="width=device-width,initial-scale=1"
           key="viewport"
         />
-        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" /> 
         <link
           rel="apple-touch-icon"
           href={`${router.basePath}/apple-touch-icon.png`}

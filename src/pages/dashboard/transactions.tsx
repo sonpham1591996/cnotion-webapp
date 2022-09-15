@@ -58,7 +58,7 @@ const Transactions: NextPage = () => {
 
   return (
     <Main meta="Transaction History | CNotion">
-      <div className="my-8">
+      <div className="my-8 h-screen">
         <div className="title text-3xl font-bold">Transaction History</div>
         <div className="search-box mt-4">
           <form onSubmit={handleSubmit(onSubmit)}>

@@ -92,57 +92,40 @@ export default function Sidebar() {
           {/* Navigation */}
 
           <ul className="md:flex-col md:min-w-full flex flex-col list-none dark:text-white">
-            <li className="items-center">
-              <Link href="/dashboard/portfolio">
-                <a
-                  href="/dashboard/portfolio"
-                  className={"text-xs uppercase py-3 font-bold block "}
-                >
-                  <i
-                    className={
-                      "fas fa-tv mr-2 text-sm " +
-                      (router.pathname.indexOf("/dashboard/portfolio") !== -1
-                        ? "opacity-75"
-                        : "text-blueGray-300")
-                    }
-                  ></i>{" "}
-                  Portfolio
-                </a>
-              </Link>
-            </li>
-
             {address && (
-              <li className="items-center">
-                <Link href="/dashboard/transactions">
-                  <a
-                    href="/dashboard/transactions"
-                    className={"text-xs uppercase py-3 font-bold block "}
-                  >
-                    <i className={"fas fa-tools mr-2 text-sm "}></i>{" "}
-                    Transactions
-                  </a>
-                </Link>
-              </li>
+              <>
+                <li className="items-center">
+                  <Link href="/dashboard/portfolio">
+                    <a
+                      href="/dashboard/portfolio"
+                      className={"text-xs uppercase py-3 font-bold block "}
+                    >
+                      <i
+                        className={
+                          "fas fa-tv mr-2 text-sm " +
+                          (router.pathname.indexOf("/dashboard/portfolio") !==
+                          -1
+                            ? "opacity-75"
+                            : "text-blueGray-300")
+                        }
+                      ></i>{" "}
+                      Portfolio
+                    </a>
+                  </Link>
+                </li>
+                <li className="items-center">
+                  <Link href="/dashboard/transactions">
+                    <a
+                      href="/dashboard/transactions"
+                      className={"text-xs uppercase py-3 font-bold block "}
+                    >
+                      <i className={"fas fa-tools mr-2 text-sm "}></i>{" "}
+                      Transactions
+                    </a>
+                  </Link>
+                </li>
+              </>
             )}
-
-            <li className="items-center">
-              <Link href="/dashboard/news">
-                <a
-                  href="#pablo"
-                  className={"text-xs uppercase py-3 font-bold block "}
-                >
-                  <i
-                    className={
-                      "fas fa-table mr-2 text-sm " +
-                      (router.pathname.indexOf("/dashboard/news") !== -1
-                        ? "opacity-75"
-                        : "text-blueGray-300")
-                    }
-                  ></i>{" "}
-                  News
-                </a>
-              </Link>
-            </li>
           </ul>
 
           <ul className="md:flex-col mt-auto ml-2">

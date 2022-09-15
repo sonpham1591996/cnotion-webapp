@@ -3,7 +3,7 @@ import {
   AppState,
   PORTFOLIO_CONTEXT_ENUM,
   ReduxActionPayload,
-  RootState,
+  RootState
 } from "../state";
 
 export const getPortfolioContext = (state: RootState) => {

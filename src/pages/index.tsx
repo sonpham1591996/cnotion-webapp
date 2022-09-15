@@ -9,7 +9,7 @@ const Index = () => {
     router.push("/dashboard/portfolio");
   }, []);
 
-  return <Main meta="TC Portfolio">Home</Main>;
+  return <Main meta="CNotion">Home</Main>;
 };
 
 export default Index;
