@@ -1,4 +1,4 @@
-import { logger } from "@/shared/utils";
+import { getAuthorizationHeader, logger } from "@/shared/utils";
 import axios, { AxiosResponse } from "axios";
 
 export interface TransactionDTO {
@@ -25,12 +25,13 @@ export const loadTransactions = (
   return new Promise<TransactionDTO>((resolve, reject) => {
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_TRANSACTIONS_SERVICE_URL}/v1/transactions/search`,
+        `${process.env.NEXT_PUBLIC_BO_URL}/v1/transactions/search`,
         {
           public_key,
           page_number,
           tx_hash,
-        }
+        },
+        getAuthorizationHeader()
       )
       .then((res: AxiosResponse<TransactionDTO>) => {
         return resolve(res.data);

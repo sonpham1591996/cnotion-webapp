@@ -77,7 +77,7 @@ export const CardLineChart: FC<CardLineChartProps> = ({
       ) : (
         <>
           <ul className="flex flex-wrap text-sm font-medium text-center dark:text-white ml-2 mt-2 justify-end mr-8">
-            {["7d", "30d"].map((op, index) => {
+            {["7d"].map((op, index) => {
               return (
                 <li
                   key={index}

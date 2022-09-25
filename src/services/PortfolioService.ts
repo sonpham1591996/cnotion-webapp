@@ -1,11 +1,19 @@
-import { logger } from "@/shared/utils";
+import { getAuthorizationHeader, logger } from "@/shared/utils";
 import axios from "axios";
 
-export const loadPortfolio = (address: string, filtered_time: string = "7d") => {
+export const loadPortfolio = (
+  filtered_time: string = "7d",
+  address?: string
+) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(
-        `${process.env.NEXT_PUBLIC_BO_URL}/v1/portfolio/address/${address}/${filtered_time}`
+      .post(
+        `${process.env.NEXT_PUBLIC_BO_URL}/v1/portfolio/`,
+        {
+          address,
+          filtered_time,
+        },
+        getAuthorizationHeader()
       )
       .then((res) => {
         return resolve(res.data);

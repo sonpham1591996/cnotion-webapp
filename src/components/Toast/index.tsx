@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import { FC } from "react";
 import {
   FaBug,
   FaCheck,
@@ -23,7 +23,16 @@ export const displayIcon = (type: string) => {
   }
 };
 
-const ToastMessage = ({ type, message }: any) =>
+interface ToastMessageProps {
+  message: string;
+  type: string;
+  dismiss: any;
+}
+
+const ToastMessage: FC<ToastMessageProps> = ({
+  type,
+  message,
+}: ToastMessageProps) =>
   ((toast as any)[type] as any)(
     <div style={{ display: "flex" }}>
       <div style={{ flexGrow: 1, fontSize: 15, padding: "8px 12px" }}>
@@ -32,11 +41,7 @@ const ToastMessage = ({ type, message }: any) =>
     </div>
   );
 
-ToastMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-};
-
+// @ts-ignore
 ToastMessage.dismiss = toast.dismiss;
 
 export default ToastMessage;

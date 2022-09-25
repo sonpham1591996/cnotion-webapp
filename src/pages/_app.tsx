@@ -12,7 +12,10 @@ import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { ThemeProvider } from "next-themes";
 import "regenerator-runtime/runtime";
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const MyApp = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +42,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           {
             name: "injected",
             options: {
-              shimDisconnect: false,
+              shimDisconnect: true,
             },
           },
         ]}

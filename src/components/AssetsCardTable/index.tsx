@@ -5,7 +5,7 @@ export interface CardTableProps {
   items: any;
 }
 
-export const CardTable: FC<CardTableProps> = ({
+export const AssetsCardTable: FC<CardTableProps> = ({
   title,
   items,
 }: CardTableProps) => {
@@ -14,7 +14,7 @@ export const CardTable: FC<CardTableProps> = ({
       <div className="rounded-t mb-0 px-4 py-3 border-0">
         <div className="flex flex-wrap items-center">
           <div className="relative w-full max-w-full flex-grow flex-1">
-            <h3 className="font-semibold text-lg">
+            <h3 className="font-semibold text-3xl">
               {title ?? "Wallet Assets"}
             </h3>
           </div>
@@ -45,19 +45,19 @@ export const CardTable: FC<CardTableProps> = ({
             {items.map((item: any, index: number) => {
               return (
                 <tr key={index}>
-                  <td className="border-t-0 px-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                  <td className="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-4 px-2">
                     <span className="ml-3 font-800">{item.token_name}</span>
                   </td>
-                  <td className="border-t-0 px-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                  <td className="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-4 px-2">
                     <span className="ml-3 font-800">{item.symbol}</span>
                   </td>
-                  <td className="border-t-0 px-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                  <td className="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-4 px-2">
                     <span className="ml-3 font-800">{item.price}</span>
                   </td>
-                  <td className="border-t-0 px-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                  <td className="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-4 px-2">
                     <span className="ml-3 font-800">{item.balance}</span>
                   </td>
-                  <td className="border-t-0 px-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                  <td className="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-4 px-2">
                     <span className="ml-3 font-800">{item.quote}</span>
                   </td>
                 </tr>

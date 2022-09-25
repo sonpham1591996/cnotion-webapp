@@ -1,13 +1,8 @@
 import { Action } from "redux";
 
-export enum PORTFOLIO_CONTEXT_ENUM {
-  FORM = "FORM",
-  USER_PORTFOLIO = "USER_PORTFOLIO",
-}
 
 export interface AppState {
   public_key: string | undefined;
-  portfolio_context: PORTFOLIO_CONTEXT_ENUM;
   portfolio_data:
     | {
         total_balance: number;

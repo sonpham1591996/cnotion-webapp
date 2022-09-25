@@ -1,23 +1,26 @@
-import { setPortfolioData } from "@/redux/actions/appAction";
-import { PORTFOLIO_CONTEXT_ENUM } from "@/redux/state";
 import { useAddress, useDisconnect } from "@thirdweb-dev/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { useDispatch } from "react-redux";
-import NotificationDropdown from "../NotificationDropdown";
 import { ThemeSwitch } from "../ThemeSwitch";
-import UserDropdown from "../UserDropdown";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
   const router = useRouter();
   const disconnect = useDisconnect();
   const address = useAddress();
-  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    sessionStorage.removeItem("isWalletConnected");
+    sessionStorage.removeItem("token");
+    disconnect();
+  };
 
   return (
-    <nav className="md:left-0 md:block md:fixed md:h-screen md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative z-10 py-4 px-4 dark:bg-zinc-700 dark:text-white">
+    <nav
+      className="md:left-0 md:block md:fixed md:h-screen md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl flex flex-wrap items-center justify-between relative z-10 py-4 px-2 dark:bg-black-700 dark:text-white dark:border-r"
+      style={{ width: "148px", maxWidth: "148px" }}
+    >
       <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
         {/* Toggler */}
         <button
@@ -31,20 +34,11 @@ export default function Sidebar() {
         <Link href="/">
           <a
             href="#pablo"
-            className="md:block text-left md:pb-2 dark:text-white mr-0 inline-block whitespace-nowrap text-2xl uppercase font-bold p-4 px-0"
+            className="md:block text-left md:pb-2 dark:text-white mr-0 inline-block whitespace-nowrap text-2xl uppercase font-bold p-4 px-2"
           >
             CNotion
           </a>
         </Link>
-        {/* User */}
-        <ul className="md:hidden items-center flex flex-wrap list-none">
-          <li className="inline-block relative dark:text-white">
-            <NotificationDropdown />
-          </li>
-          <li className="inline-block relative dark:text-white">
-            <UserDropdown />
-          </li>
-        </ul>
         {/* Collapse */}
         <div
           className={
@@ -61,7 +55,7 @@ export default function Sidebar() {
                     href="#pablo"
                     className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                   >
-                    TC Portfolio
+                    CNotion
                   </a>
                 </Link>
               </div>
@@ -94,7 +88,7 @@ export default function Sidebar() {
           <ul className="md:flex-col md:min-w-full flex flex-col list-none dark:text-white">
             {address && (
               <>
-                <li className="items-center">
+                <li className="items-center" title="Portfolio">
                   <Link href="/dashboard/portfolio">
                     <a
                       href="/dashboard/portfolio"
@@ -113,7 +107,7 @@ export default function Sidebar() {
                     </a>
                   </Link>
                 </li>
-                <li className="items-center">
+                <li className="items-center" title="Transactions">
                   <Link href="/dashboard/transactions">
                     <a
                       href="/dashboard/transactions"
@@ -121,6 +115,16 @@ export default function Sidebar() {
                     >
                       <i className={"fas fa-tools mr-2 text-sm "}></i>{" "}
                       Transactions
+                    </a>
+                  </Link>
+                </li>
+                <li className="items-center" title="Wallets">
+                  <Link href="/dashboard/wallets">
+                    <a
+                      href="/dashboard/wallets"
+                      className={"text-xs uppercase py-3 font-bold block "}
+                    >
+                      <i className={"fas fa-tools mr-2 text-sm "}></i> Wallets
                     </a>
                   </Link>
                 </li>
@@ -137,14 +141,7 @@ export default function Sidebar() {
                 <div
                   className="text-md uppercase font-bold block cursor-pointer"
                   onClick={() => {
-                    disconnect();
-                    dispatch(
-                      setPortfolioData({
-                        public_key: undefined,
-                        portfolio_context: PORTFOLIO_CONTEXT_ENUM.FORM,
-                        portfolio_data: undefined,
-                      })
-                    );
+                    onLogout();
                   }}
                 >
                   Logout

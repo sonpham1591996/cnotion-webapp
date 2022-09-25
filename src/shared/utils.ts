@@ -35,6 +35,42 @@ export function logger(message: string) {
   return process.env.NODE_ENV === "development" ? console.log(message) : "";
 }
 
-export function shorttenString(value: string) {
-  return `${value.slice(0, 12)}...${value.slice(12, 24)}`;
+export function shortenString(value: string) {
+  return `${value.slice(0, 8)}...${value.slice(16, 24)}`;
 }
+
+export const getCardLineChartLabels = (portfolioData: any) =>
+  portfolioData && portfolioData.chart_data
+    ? portfolioData.chart_data.map((d: any) =>
+        new Date(d.timestamp).toISOString().slice(0, 10)
+      )
+    : [];
+
+export const getCardLineChartWeight = (portfolioData: any) =>
+  portfolioData && portfolioData.chart_data
+    ? portfolioData.chart_data.map((d: any) => d.value)
+    : [];
+
+export const getPieChartLabels = (portfolioData: any) =>
+  portfolioData && portfolioData.assets
+    ? portfolioData.assets
+        .map((d: any) => (d.pie_chart_percentage > 0 ? d.token_name : null))
+        .filter((l: string) => !!l)
+    : [];
+
+export const getPieChartWeight = (portfolioData: any) =>
+  portfolioData && portfolioData.assets
+    ? portfolioData.assets.map((d: any) => d.pie_chart_percentage)
+    : [];
+
+export const formatTotalBalance = (portfolioData: any) => {
+  return portfolioData ? `${portfolioData.total_balance.toFixed(2)} USD` : "";
+};
+
+export const getAuthorizationHeader = () => {
+  return {
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+};

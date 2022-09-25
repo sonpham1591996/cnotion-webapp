@@ -1,14 +1,5 @@
 import { RESET_PORTFOLIO_DATA, SET_PORTFOLIO_DATA } from "../actions/appAction";
-import {
-  AppState,
-  PORTFOLIO_CONTEXT_ENUM,
-  ReduxActionPayload,
-  RootState
-} from "../state";
-
-export const getPortfolioContext = (state: RootState) => {
-  return state.app.portfolio_context;
-};
+import { AppState, ReduxActionPayload, RootState } from "../state";
 
 export const getPortfolioData = (state: RootState) => {
   return state.app.portfolio_data;
@@ -20,7 +11,6 @@ export const getPublicKey = (state: RootState) => {
 
 const initializeState: AppState = {
   public_key: "",
-  portfolio_context: PORTFOLIO_CONTEXT_ENUM.FORM,
   portfolio_data: undefined,
 };
 
@@ -30,7 +20,7 @@ const appReducer = (state = initializeState, action: ReduxActionPayload) => {
       return { ...state, ...action.payload };
     case RESET_PORTFOLIO_DATA:
       return {
-        portfolio_context: PORTFOLIO_CONTEXT_ENUM.FORM,
+        public_key: "",
         portfolio_data: undefined,
       };
     default:
