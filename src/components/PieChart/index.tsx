@@ -24,7 +24,8 @@ export const PieChart: FC<PieChartProps> = ({
 
   useEffect(() => {
     // @ts-ignore
-    const ctx = canvasEl.current.getContext("2d");
+    const ctx = canvasEl?.current?.getContext("2d");
+    if (!ctx) return;
 
     const data = {
       datasets: [

@@ -44,29 +44,32 @@ export const UserPortfolio = () => {
 
       <div className="block md:flex my-2">
         <div className="sm:w-full pt-2 sm:px-2 md:pl-8 md:w-8/12">
-          <CardLineChart
-            title="All chains"
-            labels={getCardLineChartLabels(portfolioData)}
-            weight={getCardLineChartWeight(portfolioData)}
-            filteredTime={"7d"}
-            onFilterTime={(_: string) => {
-              // TODO:
-              // if (selectedOp !== filteredTime) {
-              //   setPortfolioData(null);
-              //   setFilteredTime(selectedOp);
-              // }
-            }}
-          />
+          {portfolioData.chart_data && (
+            <CardLineChart
+              title="All chains"
+              labels={getCardLineChartLabels(portfolioData)}
+              weight={getCardLineChartWeight(portfolioData)}
+              filteredTime={"7d"}
+              onFilterTime={(_: string) => {
+                // TODO:
+                // if (selectedOp !== filteredTime) {
+                //   setPortfolioData(null);
+                //   setFilteredTime(selectedOp);
+                // }
+              }}
+            />
+          )}
         </div>
-        <div className="sm:w-full pt-12 pl-4 md:w-3/12">
-          <PieChart
-            title="Tokens"
-            labels={getPieChartLabels(portfolioData)}
-            weight={getPieChartWeight(portfolioData)}
-          />
-        </div>
+        {portfolioData.assets.length > 0 && (
+          <div className="sm:w-full pt-12 pl-4 md:w-3/12">
+            <PieChart
+              title="Tokens"
+              labels={getPieChartLabels(portfolioData)}
+              weight={getPieChartWeight(portfolioData)}
+            />
+          </div>
+        )}
       </div>
-
       <div className="py-8">
         <AssetsCardTable items={portfolioData.assets} />
       </div>

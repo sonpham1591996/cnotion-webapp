@@ -5,7 +5,7 @@ import { NextPage } from "next";
 const PortfolioPage: NextPage = () => {
   return (
     <Main meta="Portfolio | CNotion">
-      <div className="md:px-10">
+      <div className="md:px-40">
         <UserPortfolio />
       </div>
     </Main>

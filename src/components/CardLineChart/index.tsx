@@ -34,7 +34,8 @@ export const CardLineChart: FC<CardLineChartProps> = ({
 
   useEffect(() => {
     // @ts-ignore
-    const ctx = canvasEl.current.getContext("2d");
+    const ctx = canvasEl?.current?.getContext("2d");
+    if (!ctx) return;
 
     const gradient = ctx.createLinearGradient(0, 16, 0, 600);
     gradient.addColorStop(0, colors.purple.half);

@@ -32,7 +32,7 @@ const Wallets: NextPage = () => {
       <div className="flex">
         <div
           className="border-r h-screen"
-          style={{ width: "220px", maxWidth: "220px", overflow: "hidden" }}
+          style={{ width: "248px", maxWidth: "248px", overflow: "hidden" }}
         >
           <div className="flex aligns-center border-b">
             <div className="text-lg font-bold mt-2 ml-2">Wallets</div>
@@ -50,7 +50,7 @@ const Wallets: NextPage = () => {
               return (
                 <li
                   key={index}
-                  className={`py-2 px-2 hover:cursor-pointer border-b ${
+                  className={`py-6 px-4 hover:cursor-pointer border-b ${
                     selectedWallet === wallet.tracking_wallet_address
                       ? "bg-gray-800 text-white font-bold"
                       : "hover:bg-gray-300"
@@ -65,11 +65,11 @@ const Wallets: NextPage = () => {
                   }}
                 >
                   <div>
-                    <div className="text-md font-bold" title={wallet.alias}>
+                    <div className="text-lg font-bold" title={wallet.alias}>
                       {wallet.alias}
                     </div>
                     <div
-                      className="text-xs text-overflow-hidden"
+                      className="text-md text-overflow-hidden"
                       title={wallet.tracking_wallet_address}
                     >
                       {shortenString(wallet.tracking_wallet_address)}
@@ -82,9 +82,16 @@ const Wallets: NextPage = () => {
         </div>
         <div
           className="mx-8 overflow-x-hidden"
-          style={{ width: "calc(100vw - 480px)" }}
+          style={{ width: "calc(100% - 480px)" }}
         >
-          <TrackingUserWallet />
+          <TrackingUserWallet
+            address={
+              selectedWallet ??
+              (listWallets
+                ? listWallets[0]?.tracking_wallet_address
+                : undefined)
+            }
+          />
         </div>
       </div>
       {showNewWalletModal && (

@@ -8,7 +8,7 @@ const Transactions: NextPage = () => {
 
   return (
     <Main meta="Transaction History | CNotion">
-      <div className="my-8 h-screen px-10">
+      <div className="my-8 h-screen md:px-40">
         <ListTransactions address={address} showSearchBox={true} />
       </div>
     </Main>

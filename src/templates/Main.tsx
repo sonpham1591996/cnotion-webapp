@@ -26,7 +26,7 @@ export const Main = (props: IMainProps) => {
           sessionStorage.setItem("token", token);
           sessionStorage.setItem("isWalletConnected", "true");
           if (router.asPath === "/connect-wallet") {
-            router.back();
+            router.push("/");
           }
         });
       }
@@ -51,7 +51,7 @@ export const Main = (props: IMainProps) => {
         <div
           className="lg:w-full py-4"
           style={{
-            marginLeft: "154px",
+            marginLeft: "255px",
           }}
         >
           {props.children}

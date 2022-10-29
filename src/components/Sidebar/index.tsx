@@ -18,8 +18,8 @@ export default function Sidebar() {
 
   return (
     <nav
-      className="md:left-0 md:block md:fixed md:h-screen md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl flex flex-wrap items-center justify-between relative z-10 py-4 px-2 dark:bg-black-700 dark:text-white dark:border-r"
-      style={{ width: "148px", maxWidth: "148px" }}
+      className="md:left-0 md:block md:fixed md:h-screen md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl flex flex-wrap items-center justify-between relative z-10 py-4 px-8 dark:bg-black-700 dark:text-white dark:border-r"
+      style={{ width: "248px", maxWidth: "248px" }}
     >
       <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
         {/* Toggler */}
@@ -34,7 +34,7 @@ export default function Sidebar() {
         <Link href="/">
           <a
             href="#pablo"
-            className="md:block text-left md:pb-2 dark:text-white mr-0 inline-block whitespace-nowrap text-2xl uppercase font-bold p-4 px-2"
+            className="md:block text-left md:pb-2 dark:text-white mr-0 inline-block whitespace-nowrap text-4xl uppercase font-bold p-4 px-2"
           >
             CNotion
           </a>
@@ -92,11 +92,11 @@ export default function Sidebar() {
                   <Link href="/dashboard/portfolio">
                     <a
                       href="/dashboard/portfolio"
-                      className={"text-xs uppercase py-3 font-bold block "}
+                      className={"text-lg uppercase py-3 font-bold block "}
                     >
                       <i
                         className={
-                          "fas fa-tv mr-2 text-sm " +
+                          "fas fa-tv mr-2 text-lg " +
                           (router.pathname.indexOf("/dashboard/portfolio") !==
                           -1
                             ? "opacity-75"
@@ -111,7 +111,7 @@ export default function Sidebar() {
                   <Link href="/dashboard/transactions">
                     <a
                       href="/dashboard/transactions"
-                      className={"text-xs uppercase py-3 font-bold block "}
+                      className={"text-lg uppercase py-3 font-bold block "}
                     >
                       <i className={"fas fa-tools mr-2 text-sm "}></i>{" "}
                       Transactions
@@ -122,7 +122,7 @@ export default function Sidebar() {
                   <Link href="/dashboard/wallets">
                     <a
                       href="/dashboard/wallets"
-                      className={"text-xs uppercase py-3 font-bold block "}
+                      className={"text-lg uppercase py-3 font-bold block "}
                     >
                       <i className={"fas fa-tools mr-2 text-sm "}></i> Wallets
                     </a>
@@ -139,7 +139,7 @@ export default function Sidebar() {
             {address && (
               <li className="items-center">
                 <div
-                  className="text-md uppercase font-bold block cursor-pointer"
+                  className="text-lg uppercase font-bold block cursor-pointer"
                   onClick={() => {
                     onLogout();
                   }}

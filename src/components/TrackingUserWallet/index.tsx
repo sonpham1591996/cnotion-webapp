@@ -1,27 +1,38 @@
 import { loadPortfolio } from "@/services/PortfolioService";
 import { formatTotalBalance, logger, validateAddress } from "@/shared/utils";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { AssetsCardTable } from "../AssetsCardTable";
 import { CardStats } from "../CardStats/CardStats";
 import { ListTransactions } from "../ListTransactions";
 import { Loader } from "../Loader";
 
-export const TrackingUserWallet = () => {
+interface TrackingUserWalletProps {
+  address?: string;
+}
+
+export const TrackingUserWallet: FC<TrackingUserWalletProps> = ({
+  address,
+}: TrackingUserWalletProps) => {
   const [portfolioData, setPortfolioData] = useState<any>(undefined);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  const trackingAddress =
+    address ?? (router.query.address as string) ?? undefined;
 
   useEffect(() => {
-    if (router.query.address && validateAddress(router.query.address as string)) {
-      loadPortfolio("7d", router.query.address as string)
+    if (trackingAddress && validateAddress(trackingAddress) && loading) {
+      loadPortfolio("7d", trackingAddress)
         .then((data: any) => {
           setPortfolioData(data);
+          setLoading(false);
         })
         .catch(logger);
     }
-  }, [router.query]);
+  }, [router.query, loading, address]);
 
-  if (!portfolioData && router.query.address) return <Loader />;
+  if (loading) return <Loader />;
 
   return (
     <div className="md:my-4 h-screen overflow-y-auto">
@@ -40,11 +51,8 @@ export const TrackingUserWallet = () => {
         </div>
       )}
 
-      {router.query.address && (
-        <ListTransactions
-          address={router.query.address as string}
-          showSearchBox={false}
-        />
+      {trackingAddress && (
+        <ListTransactions address={trackingAddress} showSearchBox={false} />
       )}
     </div>
   );
