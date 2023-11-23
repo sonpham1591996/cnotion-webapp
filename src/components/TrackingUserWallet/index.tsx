@@ -1,38 +1,38 @@
+import TrackingWalletContext from "@/contexts/TrackingWalletContext";
 import { loadPortfolio } from "@/services/PortfolioService";
-import { formatTotalBalance, logger, validateAddress } from "@/shared/utils";
-import { useRouter } from "next/router";
-import { FC, useEffect, useState } from "react";
+import { formatTotalBalance, logger } from "@/shared/utils";
+import { FC, useCallback, useContext, useEffect, useState } from "react";
 import { AssetsCardTable } from "../AssetsCardTable";
 import { CardStats } from "../CardStats/CardStats";
-import { ListTransactions } from "../ListTransactions";
+import ListTransactions from "../ListTransactions";
 import { Loader } from "../Loader";
 
-interface TrackingUserWalletProps {
-  address?: string;
-}
-
-export const TrackingUserWallet: FC<TrackingUserWalletProps> = ({
-  address,
-}: TrackingUserWalletProps) => {
+const TrackingUserWallet: FC = () => {
   const [portfolioData, setPortfolioData] = useState<any>(undefined);
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const { publicAddress } = useContext(TrackingWalletContext);
+  const [loading, setLoading] = useState(false);
 
-  const trackingAddress =
-    address ?? (router.query.address as string) ?? undefined;
+  const loadPortfolioWithTrackingAddress = useCallback(() => {
+    if (!publicAddress) return;
+    setLoading(true);
+    loadPortfolio("7d", publicAddress)
+      .then((data: any) => {
+        setPortfolioData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        logger(error.message);
+        setLoading(false);
+      });
+  }, [publicAddress]);
 
   useEffect(() => {
-    if (trackingAddress && validateAddress(trackingAddress) && loading) {
-      loadPortfolio("7d", trackingAddress)
-        .then((data: any) => {
-          setPortfolioData(data);
-          setLoading(false);
-        })
-        .catch(logger);
-    }
-  }, [router.query, loading, address]);
+    loadPortfolioWithTrackingAddress();
+  }, [publicAddress]);
 
-  if (loading) return <Loader />;
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className="md:my-4 h-screen overflow-y-auto">
@@ -51,9 +51,9 @@ export const TrackingUserWallet: FC<TrackingUserWalletProps> = ({
         </div>
       )}
 
-      {trackingAddress && (
-        <ListTransactions address={trackingAddress} showSearchBox={false} />
-      )}
+      <ListTransactions />
     </div>
   );
 };
+
+export default TrackingUserWallet;

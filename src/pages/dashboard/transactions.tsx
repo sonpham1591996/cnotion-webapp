@@ -1,4 +1,4 @@
-import { ListTransactions } from "@/components/ListTransactions";
+import ListTransactions from "@/components/ListTransactions";
 import { Main } from "@/templates/Main";
 import { useAddress } from "@thirdweb-dev/react";
 import { NextPage } from "next";
@@ -9,7 +9,7 @@ const Transactions: NextPage = () => {
   return (
     <Main meta="Transaction History | CNotion">
       <div className="my-8 h-screen md:px-40">
-        <ListTransactions address={address} showSearchBox={true} />
+        <ListTransactions address={address ?? null} showSearchBox={true} />
       </div>
     </Main>
   );

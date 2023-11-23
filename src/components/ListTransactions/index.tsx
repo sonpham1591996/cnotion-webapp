@@ -1,26 +1,26 @@
+import TrackingWalletContext from "@/contexts/TrackingWalletContext";
 import {
   loadTransactions,
   TransactionDTO,
 } from "@/services/TransactionService";
-import { shortenString } from "@/shared/utils";
-import { FC, useEffect, useState } from "react";
+import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Loader } from "../Loader";
+import { shortenString } from "@/shared/utils";
 
 interface ListTransactionsProps {
-  address?: string;
-  showSearchBox: boolean;
+  address?: string | null;
+  showSearchBox?: boolean;
 }
 
 interface SearchFormData {
   transactionHash: string;
 }
 
-export const ListTransactions: FC<ListTransactionsProps> = ({
+const ListTransactions: FC<ListTransactionsProps> = ({
   address,
-  showSearchBox = true,
+  showSearchBox,
 }: ListTransactionsProps) => {
-  const [loading, setLoading] = useState(true);
   const [data, setData] = useState<TransactionDTO | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
   const {
@@ -28,7 +28,8 @@ export const ListTransactions: FC<ListTransactionsProps> = ({
     formState: { errors },
     setValue,
   } = useForm<SearchFormData>();
-  const [selectedAddress, setSelectedAddress] = useState<string>();
+  const { publicAddress } = useContext(TrackingWalletContext);
+  const [selectedPublicAddress] = useState(address ?? publicAddress);
 
   const onSubmit = (data: SearchFormData) => {
     if (!showSearchBox) return;
@@ -39,29 +40,26 @@ export const ListTransactions: FC<ListTransactionsProps> = ({
     );
   };
 
-  useEffect(() => {
-    if (
-      (loading && address && !data) ||
-      (data && address && address !== selectedAddress)
-      || (data && address && data.page_number !== pageNumber)
-    ) {
-      loadTransactions(address, 1)
-        .then((transactionDto: TransactionDTO) => {
-          setData(transactionDto);
-          setSelectedAddress(address);
-          setLoading(false);
-        })
-        .catch((_) => {
-          setLoading(false);
-        });
-    }
-  }, [loading, address, data, selectedAddress, pageNumber]);
+  const getListTransactions = useCallback(() => {
+    if (!selectedPublicAddress) return;
+    loadTransactions(selectedPublicAddress, 1).then(
+      (transactionDto: TransactionDTO) => {
+        setData(transactionDto);
+      }
+    );
+  }, [selectedPublicAddress]);
 
-  if (loading) return <Loader />;
+  useEffect(() => {
+    if (selectedPublicAddress) {
+      getListTransactions();
+    }
+  }, [selectedPublicAddress]);
 
   return (
     <div className="my-2">
-      <div className="title font-semibold text-3xl ml-2">Transaction History</div>
+      <div className="title font-semibold text-3xl ml-2">
+        Transaction History
+      </div>
       {showSearchBox && (
         <div className="search-box mt-4">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -230,3 +228,5 @@ export const ListTransactions: FC<ListTransactionsProps> = ({
     </div>
   );
 };
+
+export default memo(ListTransactions);

@@ -51,7 +51,7 @@ export const Main = (props: IMainProps) => {
         <div
           className="lg:w-full py-4"
           style={{
-            marginLeft: "255px",
+            marginLeft: "225px",
           }}
         >
           {props.children}

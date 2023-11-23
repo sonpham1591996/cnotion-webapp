@@ -64,7 +64,7 @@ export const getPieChartWeight = (portfolioData: any) =>
     : [];
 
 export const formatTotalBalance = (portfolioData: any) => {
-  return portfolioData ? `${portfolioData.total_balance.toFixed(2)} USD` : "";
+  return portfolioData ? `${(portfolioData.total_balance ?? 0).toFixed(2)} USD` : "";
 };
 
 export const getAuthorizationHeader = () => {
